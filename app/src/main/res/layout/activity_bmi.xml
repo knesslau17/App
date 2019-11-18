@@ -1,8 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="30dp"
     tools:context=".BmiActivity">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BMI-Rechner:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/headingHeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="40dp"
+        android:background="#1C78BD"
+        android:gravity="top|center_horizontal"
+        android:text="Größe:"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/inputHeight"
+        style="@android:style/Widget.DeviceDefault.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headingHeight"
+        android:layout_centerHorizontal="true"
+        android:background="?attr/editTextBackground"
+        android:backgroundTint="#1C78BD"
+
+        android:ems="5"
+        android:inputType="numberDecimal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#1C78BD"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/unitHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headingHeight"
+        android:layout_toEndOf="@id/inputHeight"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="m"
+        android:textColor="#1C78BD"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/headingWeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputHeight"
+        android:layout_marginTop="40dp"
+        android:background="#1C78BD"
+        android:gravity="top|center_horizontal"
+        android:text="Gewicht:"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/inputWeight"
+        style="@android:style/Widget.DeviceDefault.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headingWeight"
+        android:layout_centerHorizontal="true"
+        android:background="?attr/editTextBackground"
+        android:backgroundTint="#1C78BD"
+
+        android:ems="5"
+        android:inputType="numberDecimal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#1C78BD"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/unitWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headingWeight"
+        android:layout_toEndOf="@id/inputWeight"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="kg"
+        android:textColor="#1C78BD"
+        android:textSize="25sp" />
+
+    <ImageView
+        android:id="@+id/imageViewWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/weighticon"
+        android:layout_alignEnd="@id/headingWeight"
+        android:layout_alignTop="@id/headingWeight"
+        android:layout_margin="5dp"/>
+
+    <ImageView
+        android:id="@+id/imageViewHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/heighticon"
+        android:layout_alignEnd="@id/headingHeight"
+        android:layout_alignTop="@id/headingHeight"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:id="@+id/headingBMI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputWeight"
+        android:layout_marginTop="40dp"
+        android:text="BMI="
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/BMIOutcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_alignTop="@id/headingBMI"
+        android:layout_toEndOf="@id/headingBMI"
+        android:textSize="30sp"/>
+
+    <Button
+        android:id="@+id/calculate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="#1C78BD"
+        android:text="Berechnen"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:background="#1C78BD"
+        android:text="Zurück"
+        android:textColor="#FFFFFF" />
 
 </android.widget.RelativeLayout>
