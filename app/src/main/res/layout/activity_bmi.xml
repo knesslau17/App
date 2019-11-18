@@ -154,6 +154,6 @@
         android:layout_alignParentBottom="true"
         android:background="#1C78BD"
         android:text="Zurück"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"  />
 
 </android.widget.RelativeLayout>
