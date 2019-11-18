@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.observations">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.observations"
+    tools:ignore="GoogleAppIndexingWarning">
 
     <application
         android:allowBackup="true"
@@ -12,6 +14,8 @@
         <activity android:name=".BmiActivity"
             android:exported="true">
         </activity>
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name=".BlutdruckActivity" />
         <activity android:name=".BlutzuckerActivity" />
         <activity android:name=".MainActivity">
