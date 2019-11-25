@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:padding="30dp"
+    android:padding="20dp"
     tools:context=".BmiActivity">
 
     <TextView
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BMI-Rechner:"
+        android:text="@string/headerCalculator"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -21,10 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:background="#1C78BD"
         android:gravity="top|center_horizontal"
-        android:text="Größe:"
+        android:text="@string/headerHeight"
         android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
@@ -54,7 +54,7 @@
         android:layout_toEndOf="@id/inputHeight"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="m"
+        android:text="@string/unitHeight"
         android:textColor="#1C78BD"
         android:textSize="25sp" />
 
@@ -66,7 +66,7 @@
         android:layout_marginTop="40dp"
         android:background="#1C78BD"
         android:gravity="top|center_horizontal"
-        android:text="Gewicht:"
+        android:text="@string/headerWeight"
         android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
@@ -96,7 +96,7 @@
         android:layout_toEndOf="@id/inputWeight"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="kg"
+        android:text="@string/unitWeight"
         android:textColor="#1C78BD"
         android:textSize="25sp" />
 
@@ -124,36 +124,40 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/inputWeight"
         android:layout_marginTop="40dp"
-        android:text="BMI="
+        android:text="@string/headerBMI"
         android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/BMIOutcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         android:layout_alignTop="@id/headingBMI"
         android:layout_toEndOf="@id/headingBMI"
         android:textSize="30sp"/>
 
+
     <Button
         android:id="@+id/calculate"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="#1C78BD"
-        android:text="Berechnen"
+        android:onClick="onClickCalculateBMI"
+        android:text="@string/btnCalculateBMI"
         android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/back"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:background="#1C78BD"
-        android:text="Zurück"
-        android:textColor="#FFFFFF"  />
+        android:onClick="onClickSwitchToMain"
+        android:text="@string/btnBack"
+        android:textColor="#FFFFFF" />
+
+
 
 </android.widget.RelativeLayout>

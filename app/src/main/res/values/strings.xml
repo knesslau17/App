@@ -3,4 +3,17 @@
     <string name="ButtonRR">Blutdruck</string>
     <string name="ButtonBMI">BMI</string>
     <string name="ButtonBZ">Blutzucker</string>
+
+    <!-- BMI Layout -->
+    <string name="headerCalculator">"BMI-Rechner:"</string>
+    <string name="headerHeight">"Größe:"</string>
+    <string name="unitHeight">"m"</string>
+    <string name="headerWeight">"Gewicht:"</string>
+    <string name="unitWeight">"kg"</string>
+    <string name="headerBMI">"BMI="</string>
+    <string name="btnCalculateBMI">"Berechnen"</string>
+    <string name="btnBack">"Zurück"</string>
+    <string name="inputError">"Alle Werte müssen ausgefüllt werden!"</string>
+    <string name="ok">"Ok"</string>
+
 </resources>
