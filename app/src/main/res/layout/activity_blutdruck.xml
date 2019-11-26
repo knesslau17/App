@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
 
         android:layout_below="@+id/headerBloodpressure"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="80dp"
         android:background="#BD1C4A"
         android:gravity="top|center_horizontal"
         android:text="Systolischer Druck"

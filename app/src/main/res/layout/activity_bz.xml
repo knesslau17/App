@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="#F44336"
+        android:background="#777676"
         android:onClick="onClickCalculateBMI"
         android:text="@string/saveBZ"
         android:textColor="#FFFFFF" />
@@ -23,10 +23,108 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:background="#F44336"
+        android:background="#777676"
         android:onClick="onClickSwitchToMain"
         android:text="@string/btnBack"
         android:textColor="#FFFFFF" />
 
-    
+    <TextView
+        android:id="@+id/headerBloodsugar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="BLUTZUCKERWERTE"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headerBloodsugar"
+        android:layout_marginTop="130dp"
+        android:background="#CCC5C5"
+        android:gravity="top|center_horizontal"
+        android:text="Methode der Diagnostik"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/inputBloodsugar"
+        style="@android:style/Widget.DeviceDefault.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+
+
+        android:background="?attr/editTextBackground"
+        android:backgroundTint="#BD1C4A"
+
+        android:ems="5"
+        android:inputType="numberDecimal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#1C78BD"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/unitMgdl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+
+
+        android:layout_toEndOf="@id/inputBloodsugar"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="mg/dl"
+        android:textColor="#BD1C4A"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/buttonDiagnosis1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar"
+        android:layout_marginTop="50dp"
+
+        android:background="#BD1C4A"
+        android:text="Gelegenheitsdiagnose"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/buttonDiagnosis2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonDiagnosis1"
+        android:layout_marginTop="20dp"
+
+        android:background="#BD1C4A"
+        android:text="oGTT"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/buttonDiagnosis3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonDiagnosis2"
+        android:layout_marginTop="20dp"
+
+        android:background="#BD1C4A"
+        android:text="über Hämoglobin HbA1c"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/buttonDiagnosis4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonDiagnosis3"
+        android:layout_marginTop="20dp"
+
+        android:background="#BD1C4A"
+        android:text="Harnuntersuchung"
+        android:textColor="#FFFFFF" />
+
+
 </android.widget.RelativeLayout>
