@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="#F44336"
+        android:background="#BD1C4A"
         android:onClick="onClickCalculateBMI"
         android:text="@string/saveRR"
         android:textColor="#FFFFFF" />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:background="#F44336"
+        android:background="#BD1C4A"
         android:onClick="onClickSwitchToMain"
         android:text="@string/btnBack"
         android:textColor="#FFFFFF" />
@@ -32,15 +32,17 @@
         android:id="@+id/headerBloodpressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Blutdruck"
-        android:textSize="22sp"
+        android:layout_marginTop="30dp"
+        android:text="BLUTDRUCK"
+        android:textSize="28sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/headingSystolic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
+
+        android:layout_below="@+id/headerBloodpressure"
         android:layout_marginTop="30dp"
         android:background="#BD1C4A"
         android:gravity="top|center_horizontal"
@@ -57,8 +59,6 @@
         android:layout_centerHorizontal="true"
         android:background="?attr/editTextBackground"
         android:backgroundTint="#BD1C4A"
-
-
 
         android:ems="5"
         android:inputType="numberDecimal"
