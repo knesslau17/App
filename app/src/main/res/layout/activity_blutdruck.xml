@@ -28,4 +28,73 @@
         android:text="@string/btnBack"
         android:textColor="#FFFFFF" />
 
+    <TextView
+        android:id="@+id/headerBloodpressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blutdruck"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/headingSystolic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="30dp"
+        android:background="#BD1C4A"
+        android:gravity="top|center_horizontal"
+        android:text="Systolischer Druck"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/inputSystolic"
+        style="@android:style/Widget.DeviceDefault.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headingSystolic"
+        android:layout_centerHorizontal="true"
+        android:background="?attr/editTextBackground"
+        android:backgroundTint="#BD1C4A"
+
+        android:ems="5"
+        android:inputType="numberDecimal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#1C78BD"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/headingDiastolic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputSystolic"
+        android:layout_marginTop="40dp"
+        android:background="#BD1C4A"
+        android:gravity="top|center_horizontal"
+        android:text="Diastolischer Druck"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/inputDiastolic"
+        style="@android:style/Widget.DeviceDefault.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headingDiastolic"
+        android:layout_centerHorizontal="true"
+        android:background="?attr/editTextBackground"
+        android:backgroundTint="#BD1C4A"
+
+        android:ems="5"
+        android:inputType="numberDecimal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#1C78BD"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="25sp" />
+
+
 </android.widget.RelativeLayout>
