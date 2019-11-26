@@ -14,8 +14,6 @@
         <activity android:name=".BmiActivity"
             android:exported="true">
         </activity>
-        android:theme="@style/AppTheme"
-        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name=".BlutdruckActivity" />
         <activity android:name=".BlutzuckerActivity" />
         <activity android:name=".MainActivity">
