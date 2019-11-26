@@ -58,6 +58,7 @@
         android:background="?attr/editTextBackground"
         android:backgroundTint="#BD1C4A"
 
+        
         android:ems="5"
         android:inputType="numberDecimal"
         android:paddingTop="10dp"
