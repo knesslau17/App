@@ -10,4 +10,14 @@ public class BlutzuckerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bz);
     }
+
+    @Override
+    public void onBackPressed() {
+        //if(!werte gespeichert){
+        //alertDialog fragt ob zurück ohne speichern
+        //}
+        //else{
+        super.onBackPressed(); //wenn man die Zeile auskommentiert funktioniert der back-Button nicht in der Activity
+        //}
+    }
 }

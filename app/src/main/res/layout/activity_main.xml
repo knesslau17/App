@@ -8,33 +8,34 @@
 
     <Button
         android:id="@+id/buttonRR"
-        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="225dp"
+        android:background="#F44336"
         android:onClick="onClickSwitchToRR"
         android:text="@string/ButtonRR" />
 
     <Button
         android:id="@+id/buttonBMI"
-        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonRR"
-        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#F44336"
         android:onClick="onClickSwitchToBMI"
         android:text="@string/ButtonBMI" />
 
     <Button
         android:id="@+id/buttonBZ"
-        style="@style/Widget.AppCompat.Button.Colored"
+
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonBMI"
-        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#F44336"
         android:onClick="onClickSwitchToBZ"
         android:text="@string/ButtonBZ" />
 
