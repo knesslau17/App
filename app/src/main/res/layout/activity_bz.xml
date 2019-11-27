@@ -38,15 +38,15 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/bar"
+        android:id="@+id/headerMethods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/headerBloodsugar"
-        android:layout_marginTop="130dp"
-        android:background="#CCC5C5"
-        android:gravity="top|center_horizontal"
+        android:layout_marginTop="150dp"
+
+
         android:text="Methode der Diagnostik"
-        android:textColor="#FFFFFF"
+        android:textColor="#777676"
         android:textSize="30sp" />
 
     <EditText
@@ -56,9 +56,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
 
+        android:background="#DFDADA"
 
-        android:background="?attr/editTextBackground"
-        android:backgroundTint="#BD1C4A"
+
+        android:backgroundTint="#ECE6E8"
 
         android:ems="5"
         android:inputType="numberDecimal"
@@ -79,17 +80,17 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="mg/dl"
-        android:textColor="#BD1C4A"
+        android:textColor="#7C7778"
         android:textSize="25sp" />
 
     <Button
         android:id="@+id/buttonDiagnosis1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bar"
+        android:layout_below="@+id/headerMethods"
         android:layout_marginTop="50dp"
 
-        android:background="#BD1C4A"
+        android:background="#777676"
         android:text="Gelegenheitsdiagnose"
         android:textColor="#FFFFFF" />
 
@@ -100,7 +101,7 @@
         android:layout_below="@+id/buttonDiagnosis1"
         android:layout_marginTop="20dp"
 
-        android:background="#BD1C4A"
+        android:background="#777676"
         android:text="oGTT"
         android:textColor="#FFFFFF" />
 
@@ -111,7 +112,7 @@
         android:layout_below="@+id/buttonDiagnosis2"
         android:layout_marginTop="20dp"
 
-        android:background="#BD1C4A"
+        android:background="#777676"
         android:text="über Hämoglobin HbA1c"
         android:textColor="#FFFFFF" />
 
@@ -122,7 +123,7 @@
         android:layout_below="@+id/buttonDiagnosis3"
         android:layout_marginTop="20dp"
 
-        android:background="#BD1C4A"
+        android:background="#777676"
         android:text="Harnuntersuchung"
         android:textColor="#FFFFFF" />
 
