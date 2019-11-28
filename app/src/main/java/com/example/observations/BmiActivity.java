@@ -28,15 +28,16 @@ public class BmiActivity extends AppCompatActivity {
 
     public void onClickSwitchToMain(View view) {
         startActivity(new Intent(BmiActivity.this, MainActivity.class));
+        BmiActivity.this.finish();
     }
 
-    public void onClickCalculateBMI(View view){
+    public void onClickCalculateBMI(View view) {
         //BMI= Gewicht/(Größe)^2 (kg/m^2)
 
 
-        if (getUserdata()){
+        if (getUserdata()) {
 
-            bmi = weight/(height*height);
+            bmi = weight / (height * height);
 
 
             BigDecimal bd = BigDecimal.valueOf(bmi);
@@ -44,11 +45,11 @@ public class BmiActivity extends AppCompatActivity {
             roundedBmi = bd.doubleValue();
 
 
-            TextView textViewBmi =findViewById(R.id.BMIOutcome);
+            TextView textViewBmi = findViewById(R.id.BMIOutcome);
             String bmiString = Double.toString(roundedBmi);
             textViewBmi.setText(bmiString);
 
-        } else{
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BmiActivity.this);
             builder.setMessage(R.string.inputError);
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -62,7 +63,7 @@ public class BmiActivity extends AppCompatActivity {
         }
     }
 
-    public boolean getUserdata(){
+    public boolean getUserdata() {
         //Gewicht
         EditText weightEdit = findViewById(R.id.inputWeight);
         if (weightEdit.getText().toString().equals("")) {

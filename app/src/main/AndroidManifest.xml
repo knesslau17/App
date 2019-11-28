@@ -11,11 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BmiActivity"
-            android:exported="true">
-        </activity>
-        <activity android:name=".BlutdruckActivity" />
-        <activity android:name=".BlutzuckerActivity" />
+        <activity
+            android:name=".BmiActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BlutdruckActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BlutzuckerActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

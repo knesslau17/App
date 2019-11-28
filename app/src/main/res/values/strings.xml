@@ -31,5 +31,9 @@
     <!-- RR Layout -->
     <string name="saveRR">"Speichern"</string>
     <string name="headerRR">"Blutdruck"</string>
+    <string name="strich">"/"</string>
+    <string name="einheitRR">"mmHg"</string>
+    <string name="headerPulse">"Puls"</string>
+    <string name="headerSubRR">"Blutdruck"</string>
 
 </resources>

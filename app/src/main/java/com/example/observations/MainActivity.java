@@ -16,12 +16,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickSwitchToRR(View view) {
         startActivity(new Intent(MainActivity.this, BlutdruckActivity.class));
+        MainActivity.this.finish();
     }
+
     public void onClickSwitchToBMI(View view) {
         startActivity(new Intent(MainActivity.this, BmiActivity.class));
+        MainActivity.this.finish();
     }
+
     public void onClickSwitchToBZ(View view) {
         startActivity(new Intent(MainActivity.this, BlutzuckerActivity.class));
+        MainActivity.this.finish();
     }
 
 

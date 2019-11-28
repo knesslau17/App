@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
         android:layout_marginTop="30dp"
-        android:background="#1C78BD"
+        android:background="@color/colorAccent"
         android:gravity="top|center_horizontal"
         android:text="@string/headerHeight"
         android:textColor="#FFFFFF"
@@ -31,18 +30,16 @@
     <EditText
         android:id="@+id/inputHeight"
         style="@android:style/Widget.DeviceDefault.EditText"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/headingHeight"
         android:layout_centerHorizontal="true"
         android:background="?attr/editTextBackground"
-        android:backgroundTint="#1C78BD"
-
-        android:ems="5"
+        android:backgroundTint="@color/colorAccent"
         android:inputType="numberDecimal"
+        android:maxLength="5"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="#1C78BD"
         android:textColorHighlight="#FFFFFF"
         android:textSize="25sp" />
 
@@ -55,7 +52,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="@string/unitHeight"
-        android:textColor="#1C78BD"
+        android:textColor="@color/colorAccent"
         android:textSize="25sp" />
 
     <TextView
@@ -64,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/inputHeight"
         android:layout_marginTop="40dp"
-        android:background="#1C78BD"
+        android:background="@color/colorAccent"
         android:gravity="top|center_horizontal"
         android:text="@string/headerWeight"
         android:textColor="#FFFFFF"
@@ -73,18 +70,16 @@
     <EditText
         android:id="@+id/inputWeight"
         style="@android:style/Widget.DeviceDefault.EditText"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/headingWeight"
         android:layout_centerHorizontal="true"
         android:background="?attr/editTextBackground"
-        android:backgroundTint="#1C78BD"
-
-        android:ems="5"
+        android:backgroundTint="@color/colorAccent"
         android:inputType="numberDecimal"
+        android:maxLength="5"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="#1C78BD"
         android:textColorHighlight="#FFFFFF"
         android:textSize="25sp" />
 
@@ -97,26 +92,26 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="@string/unitWeight"
-        android:textColor="#1C78BD"
+        android:textColor="@color/colorAccent"
         android:textSize="25sp" />
 
     <ImageView
         android:id="@+id/imageViewWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/weighticon"
-        android:layout_alignEnd="@id/headingWeight"
         android:layout_alignTop="@id/headingWeight"
-        android:layout_margin="5dp"/>
+        android:layout_alignEnd="@id/headingWeight"
+        android:layout_margin="5dp"
+        android:src="@drawable/weighticon" />
 
     <ImageView
         android:id="@+id/imageViewHeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/heighticon"
-        android:layout_alignEnd="@id/headingHeight"
         android:layout_alignTop="@id/headingHeight"
-        android:layout_margin="5dp"/>
+        android:layout_alignEnd="@id/headingHeight"
+        android:layout_margin="5dp"
+        android:src="@drawable/heighticon" />
 
     <TextView
         android:id="@+id/headingBMI"
@@ -125,7 +120,7 @@
         android:layout_below="@id/inputWeight"
         android:layout_marginTop="40dp"
         android:text="@string/headerBMI"
-        android:textSize="30sp"/>
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/BMIOutcome"
@@ -133,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/headingBMI"
         android:layout_toEndOf="@id/headingBMI"
-        android:textSize="30sp"/>
+        android:textSize="30sp" />
 
 
     <Button
@@ -157,7 +152,6 @@
         android:onClick="onClickSwitchToMain"
         android:text="@string/btnBack"
         android:textColor="#FFFFFF" />
-
 
 
 </android.widget.RelativeLayout>

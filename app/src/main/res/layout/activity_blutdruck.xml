@@ -6,27 +6,6 @@
     android:padding="20dp"
     tools:context=".BlutdruckActivity">
 
-    <Button
-        android:id="@+id/saveRR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:background="#BD1C4A"
-        android:onClick="onclickSaveRR"
-        android:text="@string/saveRR"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:background="#BD1C4A"
-        android:onClick="onClickSwitchToMain"
-        android:text="@string/btnBack"
-        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/headerBloodpressure"
@@ -38,62 +17,124 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/headingSystolic"
+        android:id="@+id/headingRR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/headerBloodpressure"
+        android:layout_below="@id/headerBloodpressure"
         android:layout_marginTop="80dp"
-        android:background="#BD1C4A"
+        android:background="#F44336"
         android:gravity="top|center_horizontal"
-        android:text="Systolischer Druck"
+        android:text="@string/headerRR"
         android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
-    <EditText
-        android:id="@+id/inputSystolic"
-        style="@android:style/Widget.DeviceDefault.EditText"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/headingSystolic"
-        android:layout_centerHorizontal="true"
-        android:background="?attr/editTextBackground"
-        android:backgroundTint="#BD1C4A"
-        android:ems="5"
-        android:inputType="numberDecimal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="#1C78BD"
-        android:textColorHighlight="#FFFFFF"
-        android:textSize="25sp" />
+        <RelativeLayout
+            android:id="@+id/relLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headingRR"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/inputSystolic"
+                style="@android:style/Widget.DeviceDefault.EditText"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/textViewStrich"
+                android:background="?attr/editTextBackground"
+                android:backgroundTint="#F44336"
+                android:maxLength="3"
+                android:includeFontPadding="true"
+                android:inputType="numberDecimal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColorHighlight="#FFFFFF"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/textViewStrich"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/strich"
+                android:textSize="40sp" />
+
+            <EditText
+                android:id="@+id/inputDiastolic"
+                style="@android:style/Widget.DeviceDefault.EditText"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/textViewStrich"
+                android:background="?attr/editTextBackground"
+                android:backgroundTint="#F44336"
+                android:maxLength="3"
+                android:inputType="numberDecimal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColorHighlight="#FFFFFF"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/textViewEinheitRR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@id/inputDiastolic"
+                android:text="@string/einheitRR" />
+        </RelativeLayout>
+
 
     <TextView
-        android:id="@+id/headingDiastolic"
+        android:id="@+id/headingPulse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputSystolic"
+        android:layout_below="@+id/relLayout"
         android:layout_marginTop="40dp"
-        android:background="#BD1C4A"
+        android:background="#F44336"
         android:gravity="top|center_horizontal"
-        android:text="Diastolischer Druck"
+        android:text="@string/headerPulse"
         android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
     <EditText
-        android:id="@+id/inputDiastolic"
+        android:id="@+id/inputPulse"
         style="@android:style/Widget.DeviceDefault.EditText"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/headingDiastolic"
+        android:layout_below="@+id/headingPulse"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:background="?attr/editTextBackground"
-        android:backgroundTint="#BD1C4A"
-        android:ems="5"
+        android:backgroundTint="#F44336"
+        android:maxLength="3"
         android:inputType="numberDecimal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="#1C78BD"
         android:textColorHighlight="#FFFFFF"
         android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/saveRR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="#F44336"
+        android:onClick="onclickSaveRR"
+        android:text="@string/saveRR"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:background="#F44336"
+        android:onClick="onClickSwitchToMain"
+        android:text="@string/btnBack"
+        android:textColor="#FFFFFF" />
 
 
 </android.widget.RelativeLayout>

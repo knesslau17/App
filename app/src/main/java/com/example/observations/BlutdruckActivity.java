@@ -1,5 +1,6 @@
 package com.example.observations;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,5 +27,7 @@ public class BlutdruckActivity extends AppCompatActivity {
     }
 
     public void onClickSwitchToMain(View view) {
+        startActivity(new Intent(BlutdruckActivity.this, MainActivity.class));
+        BlutdruckActivity.this.finish();
     }
 }
