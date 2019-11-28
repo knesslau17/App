@@ -18,8 +18,18 @@
 
     <!-- BZ Layout -->
     <string name="saveBZ">"Speichern"</string>
+    <string name="headerBZ">"Blutzucker"</string>
+    <string name="switchMG">"mg/dl"</string>
+    <string name="switchMMOL">"mmol/l"</string>
+    <string name="headerBZmethods">"Methode der Diagnostik"</string>
+    <string name="btnGelegenheit">"Gelegenheitsdiagnose"</string>
+    <string name="btnOGTT">"oGTT"</string>
+    <string name="btnHämo">"über Hämoglobin HbA1c"</string>
+    <string name="btnHarn">"Harnuntersuchung"</string>
+    <string name="textEinheit">"Einheit auswählen:"</string>
 
     <!-- RR Layout -->
     <string name="saveRR">"Speichern"</string>
+    <string name="headerRR">"Blutdruck"</string>
 
 </resources>

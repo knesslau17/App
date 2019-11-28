@@ -2,6 +2,7 @@ package com.example.observations;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class BlutdruckActivity extends AppCompatActivity {
 
@@ -19,5 +20,11 @@ public class BlutdruckActivity extends AppCompatActivity {
         //else{
         super.onBackPressed(); //wenn man die Zeile auskommentiert funktioniert der back-Button nicht in der Activity
         //}
+    }
+
+    public void onclickSaveRR(View view) {
+    }
+
+    public void onClickSwitchToMain(View view) {
     }
 }

@@ -13,7 +13,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="#BD1C4A"
-        android:onClick="onClickCalculateBMI"
+        android:onClick="onclickSaveRR"
         android:text="@string/saveRR"
         android:textColor="#FFFFFF" />
 
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="BLUTDRUCK"
+        android:text="@string/headerRR"
         android:textSize="28sp"
         android:textStyle="bold" />
 
@@ -41,7 +41,6 @@
         android:id="@+id/headingSystolic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_below="@+id/headerBloodpressure"
         android:layout_marginTop="80dp"
         android:background="#BD1C4A"
@@ -53,13 +52,12 @@
     <EditText
         android:id="@+id/inputSystolic"
         style="@android:style/Widget.DeviceDefault.EditText"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/headingSystolic"
         android:layout_centerHorizontal="true"
         android:background="?attr/editTextBackground"
         android:backgroundTint="#BD1C4A"
-
         android:ems="5"
         android:inputType="numberDecimal"
         android:paddingTop="10dp"
@@ -83,13 +81,12 @@
     <EditText
         android:id="@+id/inputDiastolic"
         style="@android:style/Widget.DeviceDefault.EditText"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/headingDiastolic"
         android:layout_centerHorizontal="true"
         android:background="?attr/editTextBackground"
         android:backgroundTint="#BD1C4A"
-
         android:ems="5"
         android:inputType="numberDecimal"
         android:paddingTop="10dp"
