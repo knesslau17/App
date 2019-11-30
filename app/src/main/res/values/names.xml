@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<resources>
+
+    <!-- Patientenliste -->
+
+    <string-array name="Patientennamen">
+        <item> Oliver Sencar </item>
+        <item> Viktoria Ruckhofer </item>
+        <item> Laura Kneß </item>
+        <item> Peter Konrad </item>
+
+    </string-array>
+
+</resources>

@@ -39,4 +39,11 @@
         android:onClick="onClickSwitchToBZ"
         android:text="@string/ButtonBZ" />
 
+    <Spinner
+        android:id="@+id/patientList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="100dp" />
+
 </android.widget.RelativeLayout>
