@@ -7,6 +7,7 @@
     <!-- Patientenliste -->
 
     <string-array name="Patientennamen">
+        <item>Patient auswählen…</item>
         <item> Oliver Sencar </item>
         <item> Viktoria Ruckhofer </item>
         <item> Laura Kneß </item>

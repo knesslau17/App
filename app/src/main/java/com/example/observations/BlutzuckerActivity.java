@@ -5,12 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class BlutzuckerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bz);
+        createFile();
     }
 
     @Override
@@ -23,8 +28,23 @@ public class BlutzuckerActivity extends AppCompatActivity {
         //}
     }
 
+    public void createFile() {
+        try {
+            File bzFile = new File(this.getApplicationInfo().dataDir + "/new_directory_name/");
+            if (!bzFile.exists()) {
+                bzFile.mkdir();
+            }
+            FileWriter file = new FileWriter(bzFile.getAbsolutePath() + "/filename");
+            file.write("what you want to write in internal storage");
+            file.flush();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void onClickSaveBZ(View view) {
+
     }
 
     public void onClickSwitchToMain(View view) {

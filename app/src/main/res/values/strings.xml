@@ -14,7 +14,7 @@
     <string name="btnCalculateBMI">"Berechnen"</string>
     <string name="btnBack">"Zurück"</string>
     <string name="inputError">"Alle Werte müssen ausgefüllt werden!"</string>
-    <string name="ok">"Ok"</string>
+    <string name="ok">"OK"</string>
 
     <!-- BZ Layout -->
     <string name="saveBZ">"Speichern"</string>
@@ -34,7 +34,6 @@
     <string name="strich">"/"</string>
     <string name="einheitRR">"mmHg"</string>
     <string name="headerPulse">"Puls"</string>
-    <string name="headerSubRR">"Blutdruck"</string>
 
 
 

@@ -8,22 +8,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class BmiActivity extends AppCompatActivity {
 
-    double weight;
-    double height;
-    double bmi;
-    double roundedBmi;
+    private double weight;
+    private double height;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
+        createFile();
     }
 
     public void onClickSwitchToMain(View view) {
@@ -37,12 +38,12 @@ public class BmiActivity extends AppCompatActivity {
 
         if (getUserdata()) {
 
-            bmi = weight / (height * height);
+            double bmi = weight / (height * height);
 
 
             BigDecimal bd = BigDecimal.valueOf(bmi);
             bd = bd.setScale(2, RoundingMode.HALF_UP);
-            roundedBmi = bd.doubleValue();
+            double roundedBmi = bd.doubleValue();
 
 
             TextView textViewBmi = findViewById(R.id.BMIOutcome);
@@ -63,7 +64,7 @@ public class BmiActivity extends AppCompatActivity {
         }
     }
 
-    public boolean getUserdata() {
+    private boolean getUserdata() {
         //Gewicht
         EditText weightEdit = findViewById(R.id.inputWeight);
         if (weightEdit.getText().toString().equals("")) {
@@ -80,5 +81,20 @@ public class BmiActivity extends AppCompatActivity {
             height = Double.parseDouble(heightEdit.getText().toString());
         }
         return true;
+    }
+
+    public void createFile() {
+        try {
+            File bmiFile = new File(this.getApplicationInfo().dataDir + "/new_directory_name/");
+            if (!bmiFile.exists()) {
+                bmiFile.mkdir();
+            }
+            FileWriter file = new FileWriter(bmiFile.getAbsolutePath() + "/bmi.json");
+            file.write("what you want to write in internal storage");
+            file.flush();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
