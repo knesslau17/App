@@ -29,7 +29,6 @@
 
     <Button
         android:id="@+id/buttonBZ"
-
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonBMI"

@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,12 +22,13 @@ public class BmiActivity extends AppCompatActivity {
 
     private double weight;
     private double height;
+    double roundedBmi = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
-        createFile();
+        //createFile();
     }
 
     public void onClickSwitchToMain(View view) {
@@ -43,7 +47,7 @@ public class BmiActivity extends AppCompatActivity {
 
             BigDecimal bd = BigDecimal.valueOf(bmi);
             bd = bd.setScale(2, RoundingMode.HALF_UP);
-            double roundedBmi = bd.doubleValue();
+            roundedBmi = bd.doubleValue();
 
 
             TextView textViewBmi = findViewById(R.id.BMIOutcome);
@@ -83,6 +87,18 @@ public class BmiActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onClickSaveBMI(View view) {
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("BMI", roundedBmi);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /*
     public void createFile() {
         try {
             File bmiFile = new File(this.getApplicationInfo().dataDir + "/new_directory_name/");
@@ -90,11 +106,176 @@ public class BmiActivity extends AppCompatActivity {
                 bmiFile.mkdir();
             }
             FileWriter file = new FileWriter(bmiFile.getAbsolutePath() + "/bmi.json");
-            file.write("what you want to write in internal storage");
+            file.write("{\n" +
+                    "  \"resourceType\": \"Patient\",\n" +
+                    "  \"id\": \"example\",\n" +
+                    "  \"text\": {\n" +
+                    "    \"status\": \"generated\",\n" +
+                    "    \"div\": \"<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">\\n\\t\\t\\t<table>\\n\\t\\t\\t\\t<tbody>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Name</td>\\n\\t\\t\\t\\t\\t\\t<td>Peter James \\n              <b>Chalmers</b> (&quot;Jim&quot;)\\n            </td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Address</td>\\n\\t\\t\\t\\t\\t\\t<td>534 Erewhon, Pleasantville, Vic, 3999</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Contacts</td>\\n\\t\\t\\t\\t\\t\\t<td>Home: unknown. Work: (03) 5555 6473</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t\\t<tr>\\n\\t\\t\\t\\t\\t\\t<td>Id</td>\\n\\t\\t\\t\\t\\t\\t<td>MRN: 12345 (Acme Healthcare)</td>\\n\\t\\t\\t\\t\\t</tr>\\n\\t\\t\\t\\t</tbody>\\n\\t\\t\\t</table>\\n\\t\\t</div>\"\n" +
+                    "  },\n" +
+                    "  \"identifier\": [\n" +
+                    "    {\n" +
+                    "      \"use\": \"usual\",\n" +
+                    "      \"type\": {\n" +
+                    "        \"coding\": [\n" +
+                    "          {\n" +
+                    "            \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0203\",\n" +
+                    "            \"code\": \"MR\"\n" +
+                    "          }\n" +
+                    "        ]\n" +
+                    "      },\n" +
+                    "      \"system\": \"urn:oid:1.2.36.146.595.217.0.1\",\n" +
+                    "      \"value\": \"12345\",\n" +
+                    "      \"period\": {\n" +
+                    "        \"start\": \"2001-05-06\"\n" +
+                    "      },\n" +
+                    "      \"assigner\": {\n" +
+                    "        \"display\": \"Acme Healthcare\"\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  ],\n" +
+                    "  \"active\": true,\n" +
+                    "  \"name\": [\n" +
+                    "    {\n" +
+                    "      \"use\": \"official\",\n" +
+                    "      \"family\": \"Chalmers\",\n" +
+                    "      \"given\": [\n" +
+                    "        \"Peter\",\n" +
+                    "        \"James\"\n" +
+                    "      ]\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "      \"use\": \"usual\",\n" +
+                    "      \"given\": [\n" +
+                    "        \"Jim\"\n" +
+                    "      ]\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "      \"use\": \"maiden\",\n" +
+                    "      \"family\": \"Windsor\",\n" +
+                    "      \"given\": [\n" +
+                    "        \"Peter\",\n" +
+                    "        \"James\"\n" +
+                    "      ],\n" +
+                    "      \"period\": {\n" +
+                    "        \"end\": \"2002\"\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  ],\n" +
+                    "  \"telecom\": [\n" +
+                    "    {\n" +
+                    "      \"use\": \"home\"\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "      \"system\": \"phone\",\n" +
+                    "      \"value\": \"(03) 5555 6473\",\n" +
+                    "      \"use\": \"work\",\n" +
+                    "      \"rank\": 1\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "      \"system\": \"phone\",\n" +
+                    "      \"value\": \"(03) 3410 5613\",\n" +
+                    "      \"use\": \"mobile\",\n" +
+                    "      \"rank\": 2\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "      \"system\": \"phone\",\n" +
+                    "      \"value\": \"(03) 5555 8834\",\n" +
+                    "      \"use\": \"old\",\n" +
+                    "      \"period\": {\n" +
+                    "        \"end\": \"2014\"\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  ],\n" +
+                    "  \"gender\": \"male\",\n" +
+                    "  \"birthDate\": \"1974-12-25\",\n" +
+                    "  \"_birthDate\": {\n" +
+                    "    \"extension\": [\n" +
+                    "      {\n" +
+                    "        \"url\": \"http://hl7.org/fhir/StructureDefinition/patient-birthTime\",\n" +
+                    "        \"valueDateTime\": \"1974-12-25T14:35:45-05:00\"\n" +
+                    "      }\n" +
+                    "    ]\n" +
+                    "  },\n" +
+                    "  \"deceasedBoolean\": false,\n" +
+                    "  \"address\": [\n" +
+                    "    {\n" +
+                    "      \"use\": \"home\",\n" +
+                    "      \"type\": \"both\",\n" +
+                    "      \"text\": \"534 Erewhon St PeasantVille, Rainbow, Vic  3999\",\n" +
+                    "      \"line\": [\n" +
+                    "        \"534 Erewhon St\"\n" +
+                    "      ],\n" +
+                    "      \"city\": \"PleasantVille\",\n" +
+                    "      \"district\": \"Rainbow\",\n" +
+                    "      \"state\": \"Vic\",\n" +
+                    "      \"postalCode\": \"3999\",\n" +
+                    "      \"period\": {\n" +
+                    "        \"start\": \"1974-12-25\"\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  ],\n" +
+                    "  \"contact\": [\n" +
+                    "    {\n" +
+                    "      \"relationship\": [\n" +
+                    "        {\n" +
+                    "          \"coding\": [\n" +
+                    "            {\n" +
+                    "              \"system\": \"http://terminology.hl7.org/CodeSystem/v2-0131\",\n" +
+                    "              \"code\": \"N\"\n" +
+                    "            }\n" +
+                    "          ]\n" +
+                    "        }\n" +
+                    "      ],\n" +
+                    "      \"name\": {\n" +
+                    "        \"family\": \"du Marché\",\n" +
+                    "        \"_family\": {\n" +
+                    "          \"extension\": [\n" +
+                    "            {\n" +
+                    "              \"url\": \"http://hl7.org/fhir/StructureDefinition/humanname-own-prefix\",\n" +
+                    "              \"valueString\": \"VV\"\n" +
+                    "            }\n" +
+                    "          ]\n" +
+                    "        },\n" +
+                    "        \"given\": [\n" +
+                    "          \"Bénédicte\"\n" +
+                    "        ]\n" +
+                    "      },\n" +
+                    "      \"telecom\": [\n" +
+                    "        {\n" +
+                    "          \"system\": \"phone\",\n" +
+                    "          \"value\": \"+33 (237) 998327\"\n" +
+                    "        }\n" +
+                    "      ],\n" +
+                    "      \"address\": {\n" +
+                    "        \"use\": \"home\",\n" +
+                    "        \"type\": \"both\",\n" +
+                    "        \"line\": [\n" +
+                    "          \"534 Erewhon St\"\n" +
+                    "        ],\n" +
+                    "        \"city\": \"PleasantVille\",\n" +
+                    "        \"district\": \"Rainbow\",\n" +
+                    "        \"state\": \"Vic\",\n" +
+                    "        \"postalCode\": \"3999\",\n" +
+                    "        \"period\": {\n" +
+                    "          \"start\": \"1974-12-25\"\n" +
+                    "        }\n" +
+                    "      },\n" +
+                    "      \"gender\": \"female\",\n" +
+                    "      \"period\": {\n" +
+                    "        \"start\": \"2012\"\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  ],\n" +
+                    "  \"managingOrganization\": {\n" +
+                    "    \"reference\": \"Organization/1\"\n" +
+                    "  }\n" +
+                    "}");
             file.flush();
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    */
 }

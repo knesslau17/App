@@ -9,39 +9,35 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView;
 
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String sSelected=parent.getItemAtPosition(position).toString();
-        Toast.makeText(this,sSelected,Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    String object;
+    Spinner spinner = findViewById(R.id.patientList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        object = getPatient.getJSON("http://",10);
 
-
-
-        Spinner spinner = (Spinner) findViewById(R.id.patientList);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.Patientennamen, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Patientennamen, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-// Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-
         spinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String sSelected = parent.getItemAtPosition(position).toString();
+        Toast.makeText(this, sSelected, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     public void onClickSwitchToRR(View view) {
@@ -58,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startActivity(new Intent(MainActivity.this, BlutzuckerActivity.class));
         MainActivity.this.finish();
     }
-
-
 
 
 }

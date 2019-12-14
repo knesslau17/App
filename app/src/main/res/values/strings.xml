@@ -15,6 +15,7 @@
     <string name="btnBack">"Zurück"</string>
     <string name="inputError">"Alle Werte müssen ausgefüllt werden!"</string>
     <string name="ok">"OK"</string>
+    <string name="saveBMI">"Speichern"</string>
 
     <!-- BZ Layout -->
     <string name="saveBZ">"Speichern"</string>

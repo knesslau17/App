@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,9 +45,13 @@ public class BlutzuckerActivity extends AppCompatActivity {
         }
     }
 
+    /*
     public void onClickSaveBZ(View view) {
-
+        JSONObject object = new JSONObject();
+        object.put("Blutzucker",)
     }
+     */
+
 
     public void onClickSwitchToMain(View view) {
         startActivity(new Intent(BlutzuckerActivity.this, MainActivity.class));
