@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +18,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.model.dstu2.resource.Observation;
+import ca.uhn.fhir.model.dstu2.resource.Patient;
 
 public class BmiActivity extends AppCompatActivity {
 
@@ -66,6 +71,8 @@ public class BmiActivity extends AppCompatActivity {
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
+
+        testHapiObserv();
     }
 
     private boolean getUserdata() {
@@ -97,6 +104,24 @@ public class BmiActivity extends AppCompatActivity {
         }
 
     }
+
+    public void testHapiObserv(){
+
+        FhirContext ourCtx = FhirContext.forDstu2();
+
+        Patient patient = new Patient();
+        patient.addName().addFamily("Kness");
+
+        // now convert the resource to JSON
+        String output = ourCtx.newJsonParser().encodeResourceToString(patient);
+//String output = ourCtx.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
+        Log.i("patient",output);
+
+
+
+    }
+
+
 
     /*
     public void createFile() {

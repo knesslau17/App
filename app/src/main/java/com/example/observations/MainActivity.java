@@ -4,11 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+/*import android.widget.AdapterView;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;*/
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -25,6 +35,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } catch (NetworkOnMainThreadException e) {
             Toast.makeText(this, "Verbindung fehlgeschalgen", Toast.LENGTH_LONG);
         }
+        //JSON parser object to parse read file
+     /*   JSONParser jsonParser = new JSONParser();
+
+        try (FileReader reader = new FileReader(this.getApplicationInfo().dataDir + "/new_directory_name/bmi.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+
+            Log.i("patient",obj.toString());
+
+            //Iterate over employee array
+         //   patientList.forEach( emp -> parseEmployeeObject( (JSONObject) emp ) );
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        */
 
         spinner = findViewById(R.id.patientList);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Patientennamen, android.R.layout.simple_spinner_item);
