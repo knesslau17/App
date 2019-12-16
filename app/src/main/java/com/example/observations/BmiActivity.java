@@ -20,8 +20,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.model.dstu2.composite.CodingDt;
+import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
+import ca.uhn.fhir.model.dstu2.composite.SimpleQuantityDt;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
+import ca.uhn.fhir.model.dstu2.valueset.ObservationStatusEnum;
+import ca.uhn.fhir.parser.IParser;
 
 public class BmiActivity extends AppCompatActivity {
 
@@ -29,11 +34,15 @@ public class BmiActivity extends AppCompatActivity {
     private double height;
     double roundedBmi = 0;
 
+    FhirContext ourCtx;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
         //createFile();
+        //create FHIR Context
+        ourCtx = FhirContext.forDstu2();
     }
 
     public void onClickSwitchToMain(View view) {
@@ -59,6 +68,11 @@ public class BmiActivity extends AppCompatActivity {
             String bmiString = Double.toString(roundedBmi);
             textViewBmi.setText(bmiString);
 
+            //create Observations
+            createWeightObservation(weight);
+            createHeightObservation(height);
+            createBmiObservation(roundedBmi);
+
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BmiActivity.this);
             builder.setMessage(R.string.inputError);
@@ -71,8 +85,6 @@ public class BmiActivity extends AppCompatActivity {
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
-
-        testHapiObserv();
     }
 
     private boolean getUserdata() {
@@ -106,19 +118,89 @@ public class BmiActivity extends AppCompatActivity {
     }
 
     public void testHapiObserv(){
-
-        FhirContext ourCtx = FhirContext.forDstu2();
-
         Patient patient = new Patient();
         patient.addName().addFamily("Kness");
 
+        IParser parser = ourCtx.newJsonParser();
+
         // now convert the resource to JSON
-        String output = ourCtx.newJsonParser().encodeResourceToString(patient);
+        String output = parser.encodeResourceToString(patient);
+
+
+      //  String output = ourCtx.newJsonParser().encodeResourceToString(patient);
 //String output = ourCtx.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
         Log.i("patient",output);
 
+    }
 
+    public void createWeightObservation(Double weight){
+        // Create an Observation instance
+        Observation observation = new Observation();
 
+        observation.setId("Body weight");
+
+        // Give the observation a status
+        observation.setStatus(ObservationStatusEnum.FINAL);
+
+        // Give the observation a code (what kind of observation is this)
+        CodingDt coding = observation.getCode().addCoding();
+        coding.setCode("29463-7").setSystem("http://loinc.org").setDisplay("Body Weight");
+
+        // Create a quantity datatype
+        QuantityDt value = new QuantityDt();
+        value.setValue(weight).setSystem("http://unitsofmeasure.org").setCode("kg");
+        observation.setValue(value);
+
+        IParser parser = ourCtx.newJsonParser();
+
+        String output = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        Log.i("patient",output);
+    }
+
+    public void createHeightObservation (Double height){
+        // Create an Observation instance
+        Observation observation = new Observation();
+
+        observation.setId("Body height");
+        // Give the observation a status
+        observation.setStatus(ObservationStatusEnum.FINAL);
+
+        // Give the observation a code (what kind of observation is this)
+        CodingDt coding = observation.getCode().addCoding();
+        coding.setCode("8302-2").setSystem("http://loinc.org").setDisplay("Body Height");
+
+        // Create a quantity datatype
+        QuantityDt value = new QuantityDt();
+        value.setValue(height).setSystem("http://unitsofmeasure.org").setCode("m");
+        observation.setValue(value);
+
+        IParser parser = ourCtx.newJsonParser();
+
+        String output = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        Log.i("patient",output);
+    }
+
+    public void createBmiObservation (Double bmi){
+        // Create an Observation instance
+        Observation observation = new Observation();
+
+        observation.setId("bmi");
+        // Give the observation a status
+        observation.setStatus(ObservationStatusEnum.FINAL);
+
+        // Give the observation a code (what kind of observation is this)
+        CodingDt coding = observation.getCode().addCoding();
+        coding.setCode("39156-5").setSystem("http://loinc.org").setDisplay("Body mass index (BMI) [Ratio");
+
+        // Create a quantity datatype
+        QuantityDt value = new QuantityDt();
+        value.setValue(bmi).setSystem("http://unitsofmeasure.org").setCode("kg/m2");
+        observation.setValue(value);
+
+        IParser parser = ourCtx.newJsonParser();
+
+        String output = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        Log.i("patient",output);
     }
 
 

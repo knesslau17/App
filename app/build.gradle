@@ -14,6 +14,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        compileOptions.with {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
     }
     buildTypes {
         release {
@@ -33,4 +38,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'ca.uhn.hapi.fhir:hapi-fhir-android:4.1.0'
     implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:4.1.0"
+
 }
