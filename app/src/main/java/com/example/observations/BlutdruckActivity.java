@@ -61,8 +61,7 @@ public class BlutdruckActivity extends AppCompatActivity {
 
     public void onclickSaveRR(View view) {
         if (getUserData()){
-            createDiastolicObservation(diastolic);
-            createSystolicObservation(systolic);
+            createBloodpressureObservation(diastolic,systolic);
             Toast.makeText(this,"Observation created.",Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BlutdruckActivity.this);
@@ -73,40 +72,46 @@ public class BlutdruckActivity extends AppCompatActivity {
         }
     }
 
-    private void createSystolicObservation(Double sys) {
+    private void createBloodpressureObservation(Double dia, Double sys) {
         // Create an Observation instance
         Observation observation = new Observation();
 
-        observation.setId("Glucose");
+        observation.setId("Blood-pressure");
 
         // Give the observation a status
         observation.setStatus(ObservationStatusEnum.FINAL);
 
         // Give the observation a code (what kind of observation is this)
         CodingDt coding = observation.getCode().addCoding();
-        coding.setCode("15074-8").setSystem("http://loinc.org").setDisplay("Glucose [Moles/volume] in Blood");
+        coding.setCode("85354-9").setSystem("http://loinc.org").setDisplay("Blood pressure panel with all children optional");
+
+
+        //systolic value
+        Observation.Component compSys = observation.addComponent();
+        CodingDt codingSys = compSys.getCode().addCoding();
+        codingSys.setCode("8480-6").setSystem("http://loinc.org").setDisplay("Systolic blood pressure");
+        QuantityDt valueSys = new QuantityDt();
+        valueSys.setValue(sys).setSystem("http://unitsofmeasure.org").setCode("mm[Hg]");
+        compSys.setValue(valueSys);
+
+        //diastolic value
+        Observation.Component compDia = observation.addComponent();
+        CodingDt codingDia = compDia.getCode().addCoding();
+        codingDia.setCode("8480-6").setSystem("http://loinc.org").setDisplay("Diastolic blood pressure");
+        QuantityDt valueDia = new QuantityDt();
+        valueDia.setValue(dia).setSystem("http://unitsofmeasure.org").setCode("mm[Hg]");
+        compDia.setValue(valueDia);
 
         //TO-DO: add relation to Patient -> Subject
 
         //TO-DO: Zeit hinzufügen
         // observation.setEffective();
 
-        // Create a quantity datatype
-        QuantityDt value = new QuantityDt();
-
-        //TO-DO: dynamisch je nach Switcheinstellung die Einheit ändern
-        value.setValue(sys).setSystem("http://unitsofmeasure.org").setCode("mmol/L");
-        observation.setValue(value);
-
-        //TO-DO: Messmethoden hinzufügen
 
         IParser parser = ourCtx.newJsonParser();
 
         String output = parser.setPrettyPrint(true).encodeResourceToString(observation);
         Log.i("patient",output);
-    }
-
-    private void createDiastolicObservation(Double diastolic) {
     }
 
     public boolean getUserData(){

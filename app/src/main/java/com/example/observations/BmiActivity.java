@@ -136,7 +136,7 @@ public class BmiActivity extends AppCompatActivity {
 
         // Give the observation a code (what kind of observation is this)
         CodingDt coding = observation.getCode().addCoding();
-        coding.setCode("29463-7").setSystem("http://loinc.org").setDisplay("Body Weight");
+        coding.setCode("3141-9").setSystem("http://loinc.org").setDisplay("Body Weight");
 
         //TO-DO: add relation to Patient -> Subject
 
