@@ -34,6 +34,7 @@ class getPatient {
                         sb.append(line).append("\n");
                     }
                     br.close();
+
                     return sb.toString();
             }
 

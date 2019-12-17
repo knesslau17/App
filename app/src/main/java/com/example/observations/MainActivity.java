@@ -34,9 +34,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             object = getPatient.getNames("http://mirth.grieshofer.com:80/fhir/", 3000);
             Log.i("patient",object);
         } catch (NetworkOnMainThreadException e) {
-            Toast.makeText(this, "Verbindung fehlgeschalgen", Toast.LENGTH_LONG);
+            Toast.makeText(this, "Verbindung fehlgeschlagen", Toast.LENGTH_LONG);
         }
-
         //JSON parser object to parse read file
      /*   JSONParser jsonParser = new JSONParser();
 
