@@ -73,12 +73,7 @@ public class BmiActivity extends AppCompatActivity {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BmiActivity.this);
             builder.setMessage(R.string.inputError);
-            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss());
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
         }
@@ -143,6 +138,10 @@ public class BmiActivity extends AppCompatActivity {
         CodingDt coding = observation.getCode().addCoding();
         coding.setCode("29463-7").setSystem("http://loinc.org").setDisplay("Body Weight");
 
+        //TO-DO: add relation to Patient -> Subject
+
+        //TO-DO: Zeit hinzufügen
+
         // Create a quantity datatype
         QuantityDt value = new QuantityDt();
         value.setValue(weight).setSystem("http://unitsofmeasure.org").setCode("kg");
@@ -166,6 +165,9 @@ public class BmiActivity extends AppCompatActivity {
         CodingDt coding = observation.getCode().addCoding();
         coding.setCode("8302-2").setSystem("http://loinc.org").setDisplay("Body Height");
 
+        //TO_DO: add relation to Patient -> Subject
+        //TO-DO: Zeit hinzufügen
+
         // Create a quantity datatype
         QuantityDt value = new QuantityDt();
         value.setValue(height).setSystem("http://unitsofmeasure.org").setCode("m");
@@ -188,6 +190,9 @@ public class BmiActivity extends AppCompatActivity {
         // Give the observation a code (what kind of observation is this)
         CodingDt coding = observation.getCode().addCoding();
         coding.setCode("39156-5").setSystem("http://loinc.org").setDisplay("Body mass index (BMI) [Ratio");
+
+        //TO-DO: add relation to Patient -> Subject
+        //TO-DO: Zeit hinzufügen
 
         // Create a quantity datatype
         QuantityDt value = new QuantityDt();
