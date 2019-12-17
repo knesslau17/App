@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         } catch (NetworkOnMainThreadException e) {
             Toast.makeText(this, "Verbindung fehlgeschalgen", Toast.LENGTH_LONG);
         }
+
         //JSON parser object to parse read file
      /*   JSONParser jsonParser = new JSONParser();
 
