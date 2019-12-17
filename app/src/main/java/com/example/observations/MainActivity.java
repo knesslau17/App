@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         try {
             object = getPatient.getNames("http://mirth.grieshofer.com:80/fhir/", 3000);
+            Log.i("patient",object);
         } catch (NetworkOnMainThreadException e) {
             Toast.makeText(this, "Verbindung fehlgeschalgen", Toast.LENGTH_LONG);
         }
