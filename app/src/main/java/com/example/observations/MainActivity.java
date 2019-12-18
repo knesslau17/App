@@ -2,14 +2,11 @@ package com.example.observations;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 /*import android.widget.AdapterView;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,12 +27,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
         try {
             object = getPatient.getNames("http://mirth.grieshofer.com:80/fhir/", 3000);
-            Log.i("patient",object);
+            Log.i("patient", object);
         } catch (NetworkOnMainThreadException e) {
             Toast.makeText(this, "Verbindung fehlgeschlagen", Toast.LENGTH_LONG);
         }
+         */
+
         //JSON parser object to parse read file
      /*   JSONParser jsonParser = new JSONParser();
 

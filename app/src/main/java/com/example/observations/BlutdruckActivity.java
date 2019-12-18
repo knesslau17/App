@@ -60,9 +60,9 @@ public class BlutdruckActivity extends AppCompatActivity {
     }
 
     public void onclickSaveRR(View view) {
-        if (getUserData()){
-            createBloodpressureObservation(diastolic,systolic);
-            Toast.makeText(this,"Observation created.",Toast.LENGTH_SHORT).show();
+        if (getUserData()) {
+            createBloodpressureObservation(diastolic, systolic);
+            Toast.makeText(this, "Observation created.", Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BlutdruckActivity.this);
             builder.setMessage(R.string.inputError);
@@ -111,10 +111,10 @@ public class BlutdruckActivity extends AppCompatActivity {
         IParser parser = ourCtx.newJsonParser();
 
         String output = parser.setPrettyPrint(true).encodeResourceToString(observation);
-        Log.i("patient",output);
+        Log.i("patient", output);
     }
 
-    public boolean getUserData(){
+    public boolean getUserData() {
         //Diastolischer Wert
         EditText diastolicEdit = findViewById(R.id.inputDiastolic);
         if (diastolicEdit.getText().toString().equals("")) {

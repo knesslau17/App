@@ -1,7 +1,6 @@
 package com.example.observations;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -20,11 +17,10 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
-import ca.uhn.fhir.model.dstu2.resource.Parameters;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.ObservationStatusEnum;
-import ca.uhn.fhir.model.primitive.IdDt;
 import ca.uhn.fhir.parser.IParser;
+import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 
@@ -33,24 +29,21 @@ public class BmiActivity extends AppCompatActivity {
     private double weight;
     private double height;
     double roundedBmi = 0;
-    IGenericClient client;
+
+    String outputWeight;
+    String outputHeight;
+    String outputBMI;
 
     FhirContext ourCtx;
+    IGenericClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bmi);
-        //createFile();
         //create FHIR Context
         ourCtx = FhirContext.forDstu2();
-
     }
 
-    public void onClickSwitchToMain(View view) {
-        startActivity(new Intent(BmiActivity.this, MainActivity.class));
-        BmiActivity.this.finish();
-    }
 
     public void onClickCalculateBMI(View view) {
         //BMI= Gewicht/(Größe)^2 (kg/m^2)
@@ -143,7 +136,7 @@ public class BmiActivity extends AppCompatActivity {
 
         IParser parser = ourCtx.newJsonParser();
 
-        String outputWeight = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        outputWeight = parser.setPrettyPrint(true).encodeResourceToString(observation);
         Log.i("patient", outputWeight);
         return outputWeight;
     }
@@ -170,7 +163,7 @@ public class BmiActivity extends AppCompatActivity {
 
         IParser parser = ourCtx.newJsonParser();
 
-        String outputHeight = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        outputHeight = parser.setPrettyPrint(true).encodeResourceToString(observation);
         Log.i("patient", outputHeight);
         return outputHeight;
     }
@@ -197,7 +190,7 @@ public class BmiActivity extends AppCompatActivity {
 
         IParser parser = ourCtx.newJsonParser();
 
-        String outputBMI = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        outputBMI = parser.setPrettyPrint(true).encodeResourceToString(observation);
         Log.i("patient", outputBMI);
         return outputBMI;
     }
@@ -205,10 +198,43 @@ public class BmiActivity extends AppCompatActivity {
     //Boolean bei Heught Weight und BMI um zu checken ob Daten passen
     public void onClickSaveBMI(View view) {
 
-        client = ourCtx.newRestfulGenericClient("http://mirth.grieshofer.com:80/observation");
+        String serverBaseUrl = "http://mirth.grieshofer.com:80/observation";
+        client = ourCtx.newRestfulGenericClient(serverBaseUrl);
         client.registerInterceptor(new LoggingInterceptor(true));
 
-       
+        MethodOutcome outcomeWeight = client.create().resource(outputWeight).execute();
+        Boolean postWeight = outcomeWeight.getCreated();
+        if (postWeight){
+            Toast.makeText(BmiActivity.this, "Gewicht gespeichert!", Toast.LENGTH_SHORT);
+        } else {
+            Toast.makeText(BmiActivity.this,"Gewicht nicht gespeichert",Toast.LENGTH_SHORT);
+        }
+
+
+        MethodOutcome outcomeHeight = client.create().resource(outputHeight).execute();
+        Boolean postHeight  = outcomeHeight.getCreated();
+        if (postHeight){
+            Toast.makeText(BmiActivity.this, "Größe gespeichert!", Toast.LENGTH_SHORT);
+        } else {
+            Toast.makeText(BmiActivity.this,"Größe nicht gespeichert",Toast.LENGTH_SHORT);
+        }
+
+        MethodOutcome outcomeBMI = client.create().resource(outputBMI).execute();
+        Boolean postBMI = outcomeBMI.getCreated();
+        if (postBMI){
+            Toast.makeText(BmiActivity.this, "BMI gespeichert!", Toast.LENGTH_SHORT);
+        } else {
+            Toast.makeText(BmiActivity.this,"BMI nicht gespeichert",Toast.LENGTH_SHORT);
+        }
+
 
     }
+
+    public void onClickSwitchToMain(View view) {
+        startActivity(new Intent(BmiActivity.this, MainActivity.class));
+        BmiActivity.this.finish();
+
+    }
+
+
 }

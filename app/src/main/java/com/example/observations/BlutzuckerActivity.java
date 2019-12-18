@@ -1,16 +1,13 @@
 package com.example.observations;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -61,7 +58,7 @@ public class BlutzuckerActivity extends AppCompatActivity {
         }
     }
 
-    public boolean getUserData(){
+    public boolean getUserData() {
         //Blutzuckerwert
         EditText glucoseEdit = findViewById(R.id.inputBloodsugar);
         if (glucoseEdit.getText().toString().equals("")) {
@@ -74,9 +71,9 @@ public class BlutzuckerActivity extends AppCompatActivity {
 
 
     public void onClickSaveBZ(View view) {
-        if (getUserData()){
+        if (getUserData()) {
             createBloodSugarObservation(glucose);
-            Toast.makeText(this,"Observation created.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Observation created.", Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BlutzuckerActivity.this);
             builder.setMessage(R.string.inputError);
@@ -88,7 +85,7 @@ public class BlutzuckerActivity extends AppCompatActivity {
 
     }
 
-    public void createBloodSugarObservation(Double gluc){
+    public void createBloodSugarObservation(Double gluc) {
         // Create an Observation instance
         Observation observation = new Observation();
 
@@ -104,7 +101,7 @@ public class BlutzuckerActivity extends AppCompatActivity {
         //TO-DO: add relation to Patient -> Subject
 
         //TO-DO: Zeit hinzufügen
-       // observation.setEffective();
+        // observation.setEffective();
 
         // Create a quantity datatype
         QuantityDt value = new QuantityDt();
@@ -118,9 +115,8 @@ public class BlutzuckerActivity extends AppCompatActivity {
         IParser parser = ourCtx.newJsonParser();
 
         String output = parser.setPrettyPrint(true).encodeResourceToString(observation);
-        Log.i("patient",output);
+        Log.i("patient", output);
     }
-
 
 
     public void onClickSwitchToMain(View view) {
