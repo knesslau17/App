@@ -151,7 +151,8 @@
         android:background="#F44336"
         android:onClick="onClickSaveBMI"
         android:text="@string/saveBMI"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:enabled="false"/>
 
     <Button
         android:id="@+id/back"

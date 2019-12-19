@@ -2,7 +2,9 @@ package com.example.observations;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -17,11 +20,11 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
-import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.ObservationStatusEnum;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.exceptions.NonFhirResponseException;
 import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 
 public class BmiActivity extends AppCompatActivity {
@@ -30,17 +33,21 @@ public class BmiActivity extends AppCompatActivity {
     private double height;
     double roundedBmi = 0;
 
-    String outputWeight;
-    String outputHeight;
-    String outputBMI;
+    static String outputWeight;
+    static String outputHeight;
+    static String outputBMI;
 
-    FhirContext ourCtx;
+    static FhirContext ourCtx;
     IGenericClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         //create FHIR Context
         ourCtx = FhirContext.forDstu2();
     }
@@ -49,25 +56,25 @@ public class BmiActivity extends AppCompatActivity {
     public void onClickCalculateBMI(View view) {
         //BMI= Gewicht/(Größe)^2 (kg/m^2)
 
-
         if (getUserdata()) {
 
             double bmi = weight / (height * height);
 
-
             BigDecimal bd = BigDecimal.valueOf(bmi);
             bd = bd.setScale(2, RoundingMode.HALF_UP);
             roundedBmi = bd.doubleValue();
-
 
             TextView textViewBmi = findViewById(R.id.BMIOutcome);
             String bmiString = Double.toString(roundedBmi);
             textViewBmi.setText(bmiString);
 
             //create Observations
+            /*
             createWeightObservation(weight);
             createHeightObservation(height);
             createBmiObservation(roundedBmi);
+            */
+            new CreateObservations(BmiActivity.this).execute(weight, height, roundedBmi);
 
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BmiActivity.this);
@@ -97,7 +104,7 @@ public class BmiActivity extends AppCompatActivity {
         return true;
     }
 
-    public String createWeightObservation(Double weight) {
+    public static String createWeightObservation(Double weight) {
         // Create an Observation instance
         Observation observation = new Observation();
 
@@ -121,12 +128,16 @@ public class BmiActivity extends AppCompatActivity {
 
         IParser parser = ourCtx.newJsonParser();
 
-        outputWeight = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        try {
+            outputWeight = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        } catch (Exception x) {
+            x.printStackTrace();
+        }
         Log.i("patient", outputWeight);
         return outputWeight;
     }
 
-    public String createHeightObservation(Double height) {
+    public static String createHeightObservation(Double height) {
         // Create an Observation instance
         Observation observation = new Observation();
 
@@ -153,7 +164,7 @@ public class BmiActivity extends AppCompatActivity {
         return outputHeight;
     }
 
-    public String createBmiObservation(Double bmi) {
+    public static String createBmiObservation(Double bmi) {
         // Create an Observation instance
         Observation observation = new Observation();
 
@@ -183,11 +194,14 @@ public class BmiActivity extends AppCompatActivity {
     //Boolean bei Height Weight und BMI um zu checken ob Daten passen
     public void onClickSaveBMI(View view) {
 
+
         String serverBaseUrl = "http://mirth.grieshofer.com:80/observation";
         client = ourCtx.newRestfulGenericClient(serverBaseUrl);
         client.registerInterceptor(new LoggingInterceptor(true));
 
         MethodOutcome outcomeWeight = client.create().resource(outputWeight).execute();
+
+       /*
         Boolean postWeight = outcomeWeight.getCreated();
         if (postWeight) {
             Toast.makeText(BmiActivity.this, "Gewicht gespeichert!", Toast.LENGTH_SHORT);
@@ -196,7 +210,10 @@ public class BmiActivity extends AppCompatActivity {
         }
 
 
+        */
+
         MethodOutcome outcomeHeight = client.create().resource(outputHeight).execute();
+       /*
         Boolean postHeight = outcomeHeight.getCreated();
         if (postHeight) {
             Toast.makeText(BmiActivity.this, "Größe gespeichert!", Toast.LENGTH_SHORT);
@@ -204,13 +221,19 @@ public class BmiActivity extends AppCompatActivity {
             Toast.makeText(BmiActivity.this, "Größe nicht gespeichert", Toast.LENGTH_SHORT);
         }
 
+        */
+
         MethodOutcome outcomeBMI = client.create().resource(outputBMI).execute();
+        /*
         Boolean postBMI = outcomeBMI.getCreated();
         if (postBMI) {
             Toast.makeText(BmiActivity.this, "BMI gespeichert!", Toast.LENGTH_SHORT);
         } else {
             Toast.makeText(BmiActivity.this, "BMI nicht gespeichert", Toast.LENGTH_SHORT);
         }
+
+         */
+
 
     }
 
@@ -220,5 +243,42 @@ public class BmiActivity extends AppCompatActivity {
 
     }
 
+    class CreateObservations extends AsyncTask<Double, Double, String[]> {
+
+        private WeakReference<BmiActivity> activityWeakReference;
+
+        public CreateObservations(BmiActivity activity) {
+            activityWeakReference = new WeakReference<BmiActivity>(activity);
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            BmiActivity activity = activityWeakReference.get();
+            if (activity == null || activity.isFinishing()) {
+                return;
+            }
+        }
+
+        @Override
+        protected String[] doInBackground(Double... doubles) {
+            /*
+            String gewicht = BmiActivity.createWeightObservation(weight);
+            String groesse = BmiActivity.createHeightObservation(height);
+            String bmi = BmiActivity.createBmiObservation(roundedBmi);
+             */
+
+            return new String[]{BmiActivity.createWeightObservation(weight), BmiActivity.createHeightObservation(height), BmiActivity.createBmiObservation(roundedBmi)};
+        }
+
+        @Override
+        protected void onPostExecute(String[] strings) {
+            super.onPostExecute(strings);
+            findViewById(R.id.saveBMI).setEnabled(true);
+            //this.cancel(true);
+        }
+    }
 
 }
