@@ -12,9 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
@@ -22,10 +28,7 @@ import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
 import ca.uhn.fhir.model.dstu2.valueset.ObservationStatusEnum;
 import ca.uhn.fhir.parser.IParser;
-import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.client.exceptions.NonFhirResponseException;
-import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 
 public class BmiActivity extends AppCompatActivity {
 
@@ -75,7 +78,7 @@ public class BmiActivity extends AppCompatActivity {
             createBmiObservation(roundedBmi);
             */
             new CreateObservations(BmiActivity.this).execute(weight, height, roundedBmi);
-
+            Toast.makeText(this, "Warten bis die JSON-Files generiert sind...", Toast.LENGTH_LONG);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BmiActivity.this);
             builder.setMessage(R.string.inputError);
@@ -192,16 +195,49 @@ public class BmiActivity extends AppCompatActivity {
     }
 
     //Boolean bei Height Weight und BMI um zu checken ob Daten passen
-    public void onClickSaveBMI(View view) {
+    public void onClickSaveBMI(View view) throws IOException {
 
 
-        String serverBaseUrl = "http://mirth.grieshofer.com:80/observation";
-        client = ourCtx.newRestfulGenericClient(serverBaseUrl);
-        client.registerInterceptor(new LoggingInterceptor(true));
+        URL url = new URL("http://mirth.grieshofer.com:80/observation");
 
+        HttpURLConnection conn = null;
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setFixedLengthStreamingMode(outputWeight.getBytes().length + outputHeight.getBytes().length + outputBMI.getBytes().length);
+
+
+            conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+            conn.setRequestProperty("X-Requested-With", "HttpRequest");
+
+            conn.connect();
+
+            os = new BufferedOutputStream(conn.getOutputStream());
+            os.write(outputWeight.getBytes());
+            os.write(outputHeight.getBytes());
+            os.write(outputBMI.getBytes());
+
+            os.flush();
+
+            //is = conn.getInputStream();
+        } finally {
+            //clean up
+            os.close();
+            //is.close();
+            conn.disconnect();
+        }
+
+
+        //client = ourCtx.newRestfulGenericClient(serverBaseUrl);
+        //client.registerInterceptor(new LoggingInterceptor(true));
+
+        /*
         MethodOutcome outcomeWeight = client.create().resource(outputWeight).execute();
-
-       /*
         Boolean postWeight = outcomeWeight.getCreated();
         if (postWeight) {
             Toast.makeText(BmiActivity.this, "Gewicht gespeichert!", Toast.LENGTH_SHORT);
@@ -211,9 +247,9 @@ public class BmiActivity extends AppCompatActivity {
 
 
         */
-
+        /*
         MethodOutcome outcomeHeight = client.create().resource(outputHeight).execute();
-       /*
+
         Boolean postHeight = outcomeHeight.getCreated();
         if (postHeight) {
             Toast.makeText(BmiActivity.this, "Größe gespeichert!", Toast.LENGTH_SHORT);
@@ -222,9 +258,9 @@ public class BmiActivity extends AppCompatActivity {
         }
 
         */
-
-        MethodOutcome outcomeBMI = client.create().resource(outputBMI).execute();
         /*
+        MethodOutcome outcomeBMI = client.create().resource(outputBMI).execute();
+
         Boolean postBMI = outcomeBMI.getCreated();
         if (postBMI) {
             Toast.makeText(BmiActivity.this, "BMI gespeichert!", Toast.LENGTH_SHORT);
