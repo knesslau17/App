@@ -12,15 +12,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
+
+import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
@@ -28,7 +29,8 @@ import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
 import ca.uhn.fhir.model.dstu2.valueset.ObservationStatusEnum;
 import ca.uhn.fhir.parser.IParser;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class BmiActivity extends AppCompatActivity {
 
@@ -41,7 +43,8 @@ public class BmiActivity extends AppCompatActivity {
     static String outputBMI;
 
     static FhirContext ourCtx;
-    IGenericClient client;
+
+    static String url = "http://mirth.grieshofer.com:80/observation";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,11 +198,39 @@ public class BmiActivity extends AppCompatActivity {
     }
 
     //Boolean bei Height Weight und BMI um zu checken ob Daten passen
-    public void onClickSaveBMI(View view) throws IOException {
+    public void onClickSaveBMI(View view) {
+
+        SyncHttpClient client = new SyncHttpClient();
+        client.setMaxRetriesAndTimeout(2, 1000);
+        client.setTimeout(200);
+        //JSONObject json = ;
+        try {
+            StringEntity entity = new StringEntity(outputWeight + outputHeight + outputBMI);
+            client.post(BmiActivity.this, String.valueOf(url), entity, "observation", new JsonHttpResponseHandler() {
 
 
-        URL url = new URL("http://mirth.grieshofer.com:80/observation");
+                @Override
+                public void onRetry(int retryNo) {
+                    super.onRetry(retryNo);
+                    Toast.makeText(BmiActivity.this, "Es besteht ein Problem mit der Internetverbindung! Verbingunsversuch Nr. " + retryNo + ".", Toast.LENGTH_LONG).show();
+                }
 
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
+                    Log.println(Log.ERROR, "Fehler", "Fehler");
+                }
+
+            });
+        } catch (Exception e) {
+            Log.println(Log.ERROR, "Fehler", "Fehler");
+        }
+
+
+
+
+
+
+        /*
         HttpURLConnection conn = null;
         InputStream is = null;
         OutputStream os = null;
@@ -231,10 +262,11 @@ public class BmiActivity extends AppCompatActivity {
             //is.close();
             conn.disconnect();
         }
+        */
 
 
-        //client = ourCtx.newRestfulGenericClient(serverBaseUrl);
-        //client.registerInterceptor(new LoggingInterceptor(true));
+    //client = ourCtx.newRestfulGenericClient(serverBaseUrl);
+    //client.registerInterceptor(new LoggingInterceptor(true));
 
         /*
         MethodOutcome outcomeWeight = client.create().resource(outputWeight).execute();
@@ -271,7 +303,7 @@ public class BmiActivity extends AppCompatActivity {
          */
 
 
-    }
+}
 
     public void onClickSwitchToMain(View view) {
         startActivity(new Intent(BmiActivity.this, MainActivity.class));
@@ -279,42 +311,51 @@ public class BmiActivity extends AppCompatActivity {
 
     }
 
-    class CreateObservations extends AsyncTask<Double, Double, String[]> {
+class CreateObservations extends AsyncTask<Double, Double, String[]> {
 
-        private WeakReference<BmiActivity> activityWeakReference;
+    private WeakReference<BmiActivity> activityWeakReference;
 
-        public CreateObservations(BmiActivity activity) {
-            activityWeakReference = new WeakReference<BmiActivity>(activity);
+    public CreateObservations(BmiActivity activity) {
+        activityWeakReference = new WeakReference<BmiActivity>(activity);
+    }
+
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        BmiActivity activity = activityWeakReference.get();
+        if (activity == null || activity.isFinishing()) {
+            return;
         }
+    }
 
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            BmiActivity activity = activityWeakReference.get();
-            if (activity == null || activity.isFinishing()) {
-                return;
-            }
-        }
-
-        @Override
-        protected String[] doInBackground(Double... doubles) {
+    @Override
+    protected String[] doInBackground(Double... doubles) {
             /*
             String gewicht = BmiActivity.createWeightObservation(weight);
             String groesse = BmiActivity.createHeightObservation(height);
             String bmi = BmiActivity.createBmiObservation(roundedBmi);
              */
 
-            return new String[]{BmiActivity.createWeightObservation(weight), BmiActivity.createHeightObservation(height), BmiActivity.createBmiObservation(roundedBmi)};
-        }
+        return new String[]{BmiActivity.createWeightObservation(weight), BmiActivity.createHeightObservation(height), BmiActivity.createBmiObservation(roundedBmi)};
+    }
 
-        @Override
-        protected void onPostExecute(String[] strings) {
-            super.onPostExecute(strings);
-            findViewById(R.id.saveBMI).setEnabled(true);
-            //this.cancel(true);
-        }
+    @Override
+    protected void onPostExecute(String[] strings) {
+        super.onPostExecute(strings);
+        findViewById(R.id.saveBMI).setEnabled(true);
+        //this.cancel(true);
     }
 
 }
+
+    public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        //client2.post(getAbsoluteUrl(url), params, responseHandler);
+    }
+
+    private static String getAbsoluteUrl(String relativeUrl) {
+        return url + relativeUrl;
+    }
+}
+
