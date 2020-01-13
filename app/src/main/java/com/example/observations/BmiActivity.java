@@ -29,6 +29,9 @@ import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
 import ca.uhn.fhir.model.dstu2.valueset.ObservationStatusEnum;
 import ca.uhn.fhir.parser.IParser;
+import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -38,11 +41,16 @@ public class BmiActivity extends AppCompatActivity {
     private double height;
     double roundedBmi = 0;
 
+    static Observation observationWeight;
+    static Observation observationHeight;
+    static Observation observationBmi;
+
     static String outputWeight;
     static String outputHeight;
     static String outputBMI;
 
     static FhirContext ourCtx;
+    static IGenericClient client;
 
     static String url = "http://mirth.grieshofer.com:80/observation";
 
@@ -112,30 +120,31 @@ public class BmiActivity extends AppCompatActivity {
 
     public static String createWeightObservation(Double weight) {
         // Create an Observation instance
-        Observation observation = new Observation();
+        observationWeight = new Observation();
 
-        observation.setId("Body weight");
+        observationWeight.setId("Body weight");
 
         // Give the observation a status
-        observation.setStatus(ObservationStatusEnum.FINAL);
+        observationWeight.setStatus(ObservationStatusEnum.FINAL);
 
         // Give the observation a code (what kind of observation is this)
-        CodingDt coding = observation.getCode().addCoding();
+        CodingDt coding = observationWeight.getCode().addCoding();
         coding.setCode("3141-9").setSystem("http://loinc.org").setDisplay("Body Weight");
 
         //TO-DO: add relation to Patient -> Subject
+        //observation.getSubject().setReference("Patient/12345");
 
         //TO-DO: Zeit hinzufügen
 
         // Create a quantity datatype
         QuantityDt value = new QuantityDt();
         value.setValue(weight).setSystem("http://unitsofmeasure.org").setCode("kg");
-        observation.setValue(value);
+        observationWeight.setValue(value);
 
         IParser parser = ourCtx.newJsonParser();
 
         try {
-            outputWeight = parser.setPrettyPrint(true).encodeResourceToString(observation);
+            outputWeight = parser.setPrettyPrint(true).encodeResourceToString(observationWeight);
         } catch (Exception x) {
             x.printStackTrace();
         }
@@ -145,41 +154,43 @@ public class BmiActivity extends AppCompatActivity {
 
     public static String createHeightObservation(Double height) {
         // Create an Observation instance
-        Observation observation = new Observation();
+        observationHeight = new Observation();
 
-        observation.setId("Body height");
+        observationHeight.setId("Body height");
         // Give the observation a status
-        observation.setStatus(ObservationStatusEnum.FINAL);
+        observationHeight.setStatus(ObservationStatusEnum.FINAL);
 
         // Give the observation a code (what kind of observation is this)
-        CodingDt coding = observation.getCode().addCoding();
+        CodingDt coding = observationHeight.getCode().addCoding();
         coding.setCode("8302-2").setSystem("http://loinc.org").setDisplay("Body Height");
 
         //TO_DO: add relation to Patient -> Subject
+        //observation.getSubject().setReference("Patient/12345");
+
         //TO-DO: Zeit hinzufügen
 
         // Create a quantity datatype
         QuantityDt value = new QuantityDt();
         value.setValue(height).setSystem("http://unitsofmeasure.org").setCode("m");
-        observation.setValue(value);
+        observationHeight.setValue(value);
 
         IParser parser = ourCtx.newJsonParser();
 
-        outputHeight = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        outputHeight = parser.setPrettyPrint(true).encodeResourceToString(observationHeight);
         Log.i("patient", outputHeight);
         return outputHeight;
     }
 
     public static String createBmiObservation(Double bmi) {
         // Create an Observation instance
-        Observation observation = new Observation();
+        observationBmi = new Observation();
 
-        observation.setId("bmi");
+        observationBmi.setId("bmi");
         // Give the observation a status
-        observation.setStatus(ObservationStatusEnum.FINAL);
+        observationBmi.setStatus(ObservationStatusEnum.FINAL);
 
         // Give the observation a code (what kind of observation is this)
-        CodingDt coding = observation.getCode().addCoding();
+        CodingDt coding = observationBmi.getCode().addCoding();
         coding.setCode("39156-5").setSystem("http://loinc.org").setDisplay("Body mass index (BMI) [Ratio");
 
         //TO-DO: add relation to Patient -> Subject
@@ -188,11 +199,11 @@ public class BmiActivity extends AppCompatActivity {
         // Create a quantity datatype
         QuantityDt value = new QuantityDt();
         value.setValue(bmi).setSystem("http://unitsofmeasure.org").setCode("kg/m2");
-        observation.setValue(value);
+        observationBmi.setValue(value);
 
         IParser parser = ourCtx.newJsonParser();
 
-        outputBMI = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        outputBMI = parser.setPrettyPrint(true).encodeResourceToString(observationBmi);
         Log.i("patient", outputBMI);
         return outputBMI;
     }
@@ -200,7 +211,7 @@ public class BmiActivity extends AppCompatActivity {
     //Boolean bei Height Weight und BMI um zu checken ob Daten passen
     public void onClickSaveBMI(View view) {
 
-        SyncHttpClient client = new SyncHttpClient();
+   /*     SyncHttpClient client = new SyncHttpClient();
         client.setMaxRetriesAndTimeout(2, 1000);
         client.setTimeout(200);
         //JSONObject json = ;
@@ -223,7 +234,7 @@ public class BmiActivity extends AppCompatActivity {
             });
         } catch (Exception e) {
             Log.println(Log.ERROR, "Fehler", "Fehler");
-        }
+        } */
 
 
 
@@ -264,12 +275,13 @@ public class BmiActivity extends AppCompatActivity {
         }
         */
 
+        ourCtx.getRestfulClientFactory().setConnectTimeout(60 * 1000);
+        ourCtx.getRestfulClientFactory().setSocketTimeout(60 * 1000);
+        client = ourCtx.newRestfulGenericClient(url);
+    //    client.registerInterceptor(new LoggingInterceptor(true));
 
-    //client = ourCtx.newRestfulGenericClient(serverBaseUrl);
-    //client.registerInterceptor(new LoggingInterceptor(true));
 
-        /*
-        MethodOutcome outcomeWeight = client.create().resource(outputWeight).execute();
+        MethodOutcome outcomeWeight = client.create().resource(observationWeight).prettyPrint().encodedJson().execute();
         Boolean postWeight = outcomeWeight.getCreated();
         if (postWeight) {
             Toast.makeText(BmiActivity.this, "Gewicht gespeichert!", Toast.LENGTH_SHORT);
@@ -278,9 +290,7 @@ public class BmiActivity extends AppCompatActivity {
         }
 
 
-        */
-        /*
-        MethodOutcome outcomeHeight = client.create().resource(outputHeight).execute();
+        MethodOutcome outcomeHeight = client.create().resource(observationHeight).execute();
 
         Boolean postHeight = outcomeHeight.getCreated();
         if (postHeight) {
@@ -289,9 +299,8 @@ public class BmiActivity extends AppCompatActivity {
             Toast.makeText(BmiActivity.this, "Größe nicht gespeichert", Toast.LENGTH_SHORT);
         }
 
-        */
-        /*
-        MethodOutcome outcomeBMI = client.create().resource(outputBMI).execute();
+
+        MethodOutcome outcomeBMI = client.create().resource(observationBmi).execute();
 
         Boolean postBMI = outcomeBMI.getCreated();
         if (postBMI) {
@@ -300,10 +309,8 @@ public class BmiActivity extends AppCompatActivity {
             Toast.makeText(BmiActivity.this, "BMI nicht gespeichert", Toast.LENGTH_SHORT);
         }
 
-         */
 
-
-}
+    }
 
     public void onClickSwitchToMain(View view) {
         startActivity(new Intent(BmiActivity.this, MainActivity.class));
@@ -311,44 +318,44 @@ public class BmiActivity extends AppCompatActivity {
 
     }
 
-class CreateObservations extends AsyncTask<Double, Double, String[]> {
+    class CreateObservations extends AsyncTask<Double, Double, String[]> {
 
-    private WeakReference<BmiActivity> activityWeakReference;
+        private WeakReference<BmiActivity> activityWeakReference;
 
-    public CreateObservations(BmiActivity activity) {
-        activityWeakReference = new WeakReference<BmiActivity>(activity);
-    }
-
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-        BmiActivity activity = activityWeakReference.get();
-        if (activity == null || activity.isFinishing()) {
-            return;
+        public CreateObservations(BmiActivity activity) {
+            activityWeakReference = new WeakReference<BmiActivity>(activity);
         }
-    }
 
-    @Override
-    protected String[] doInBackground(Double... doubles) {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            BmiActivity activity = activityWeakReference.get();
+            if (activity == null || activity.isFinishing()) {
+                return;
+            }
+        }
+
+        @Override
+        protected String[] doInBackground(Double... doubles) {
             /*
             String gewicht = BmiActivity.createWeightObservation(weight);
             String groesse = BmiActivity.createHeightObservation(height);
             String bmi = BmiActivity.createBmiObservation(roundedBmi);
              */
 
-        return new String[]{BmiActivity.createWeightObservation(weight), BmiActivity.createHeightObservation(height), BmiActivity.createBmiObservation(roundedBmi)};
-    }
+            return new String[]{BmiActivity.createWeightObservation(weight), BmiActivity.createHeightObservation(height), BmiActivity.createBmiObservation(roundedBmi)};
+        }
 
-    @Override
-    protected void onPostExecute(String[] strings) {
-        super.onPostExecute(strings);
-        findViewById(R.id.saveBMI).setEnabled(true);
-        //this.cancel(true);
-    }
+        @Override
+        protected void onPostExecute(String[] strings) {
+            super.onPostExecute(strings);
+            findViewById(R.id.saveBMI).setEnabled(true);
+            //this.cancel(true);
+        }
 
-}
+    }
 
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         //client2.post(getAbsoluteUrl(url), params, responseHandler);

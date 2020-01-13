@@ -99,6 +99,7 @@ public class BlutzuckerActivity extends AppCompatActivity {
         coding.setCode("15074-8").setSystem("http://loinc.org").setDisplay("Glucose [Moles/volume] in Blood");
 
         //TO-DO: add relation to Patient -> Subject
+        //observation.getSubject().setReference("Patient/12345");
 
         //TO-DO: Zeit hinzufügen
         // observation.setEffective();

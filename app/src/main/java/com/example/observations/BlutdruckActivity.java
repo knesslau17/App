@@ -25,6 +25,7 @@ public class BlutdruckActivity extends AppCompatActivity {
     FhirContext ourCtx;
     Double diastolic;
     Double systolic;
+    Double heartRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,10 @@ public class BlutdruckActivity extends AppCompatActivity {
     }
 
     public void onclickSaveRR(View view) {
-        if (getUserData()) {
-            createBloodpressureObservation(diastolic, systolic);
-            Toast.makeText(this, "Observation created.", Toast.LENGTH_SHORT).show();
+        if (getUserData()){
+            createBloodpressureObservation(diastolic,systolic);
+            createHeartRateObservation(heartRate);
+            Toast.makeText(this,"Observation created.",Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(BlutdruckActivity.this);
             builder.setMessage(R.string.inputError);
@@ -103,9 +105,10 @@ public class BlutdruckActivity extends AppCompatActivity {
         compDia.setValue(valueDia);
 
         //TO-DO: add relation to Patient -> Subject
+        //observation.getSubject().setReference("Patient/12345");
 
         //TO-DO: Zeit hinzufügen
-        // observation.setEffective();
+        //observation.setEffective();
 
 
         IParser parser = ourCtx.newJsonParser();
@@ -114,7 +117,36 @@ public class BlutdruckActivity extends AppCompatActivity {
         Log.i("patient", output);
     }
 
-    public boolean getUserData() {
+    public void createHeartRateObservation(Double rate){
+        // Create an Observation instance
+        Observation observation = new Observation();
+
+        observation.setId("heart-rate");
+
+        // Give the observation a status
+        observation.setStatus(ObservationStatusEnum.FINAL);
+
+        // Give the observation a code (what kind of observation is this)
+        CodingDt coding = observation.getCode().addCoding();
+        coding.setCode("8867-4").setSystem("http://loinc.org").setDisplay("Heart rate");
+
+        //TO-DO: add relation to Patient -> Subject
+        //observation.getSubject().setReference("Patient/12345");
+
+        //TO-DO: Zeit hinzufügen
+
+        // Create a quantity datatype
+        QuantityDt value = new QuantityDt();
+        value.setValue(rate).setSystem("http://unitsofmeasure.org").setCode("/min");
+        observation.setValue(value);
+
+        IParser parser = ourCtx.newJsonParser();
+
+        String output = parser.setPrettyPrint(true).encodeResourceToString(observation);
+        Log.i("patient",output);
+    }
+
+    public boolean getUserData(){
         //Diastolischer Wert
         EditText diastolicEdit = findViewById(R.id.inputDiastolic);
         if (diastolicEdit.getText().toString().equals("")) {
@@ -129,6 +161,14 @@ public class BlutdruckActivity extends AppCompatActivity {
             return false;
         } else {
             systolic = Double.parseDouble(systolicEdit.getText().toString());
+        }
+
+        //Puls
+        EditText rateEdit = findViewById(R.id.inputPulse);
+        if (rateEdit.getText().toString().equals("")) {
+            return false;
+        } else {
+            heartRate = Double.parseDouble(rateEdit.getText().toString());
         }
         return true;
     }
