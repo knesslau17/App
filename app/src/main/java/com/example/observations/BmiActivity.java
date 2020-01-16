@@ -13,11 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.SyncHttpClient;
-
-import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
@@ -26,14 +22,14 @@ import java.math.RoundingMode;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
+import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
+import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.ObservationStatusEnum;
+import ca.uhn.fhir.okhttp.client.OkHttpRestfulClientFactory;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.client.interceptor.LoggingInterceptor;
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 public class BmiActivity extends AppCompatActivity {
 
@@ -119,6 +115,20 @@ public class BmiActivity extends AppCompatActivity {
     }
 
     public static String createWeightObservation(Double weight) {
+
+        Patient patient = new Patient();
+        patient.addIdentifier()
+                .setSystem("http://acme.org/mrns")
+                .setValue("12345");
+        patient.addName()
+                .addGiven("J")
+                .addGiven("Jonah");
+
+// Give the patient a temporary UUID so that other resources in
+// the transaction can refer to it
+        patient.setId("1234");
+
+
         // Create an Observation instance
         observationWeight = new Observation();
 
@@ -132,7 +142,8 @@ public class BmiActivity extends AppCompatActivity {
         coding.setCode("3141-9").setSystem("http://loinc.org").setDisplay("Body Weight");
 
         //TO-DO: add relation to Patient -> Subject
-        //observation.getSubject().setReference("Patient/12345");
+        observationWeight.setSubject(new ResourceReferenceDt(patient.getIdElement().getValue()));
+
 
         //TO-DO: Zeit hinzufügen
 
@@ -165,7 +176,7 @@ public class BmiActivity extends AppCompatActivity {
         coding.setCode("8302-2").setSystem("http://loinc.org").setDisplay("Body Height");
 
         //TO_DO: add relation to Patient -> Subject
-        //observation.getSubject().setReference("Patient/12345");
+        observationHeight.getSubject().setReference("Patient/12345");
 
         //TO-DO: Zeit hinzufügen
 
@@ -194,6 +205,7 @@ public class BmiActivity extends AppCompatActivity {
         coding.setCode("39156-5").setSystem("http://loinc.org").setDisplay("Body mass index (BMI) [Ratio");
 
         //TO-DO: add relation to Patient -> Subject
+        observationBmi.getSubject().setReference("Patient/12345");
         //TO-DO: Zeit hinzufügen
 
         // Create a quantity datatype
@@ -275,8 +287,10 @@ public class BmiActivity extends AppCompatActivity {
         }
         */
 
-        ourCtx.getRestfulClientFactory().setConnectTimeout(60 * 1000);
-        ourCtx.getRestfulClientFactory().setSocketTimeout(60 * 1000);
+   //     ourCtx.getRestfulClientFactory().setConnectTimeout(60 * 1000);
+   //     ourCtx.getRestfulClientFactory().setSocketTimeout(60 * 1000);
+
+        ourCtx.setRestfulClientFactory(new OkHttpRestfulClientFactory(ourCtx));
         client = ourCtx.newRestfulGenericClient(url);
     //    client.registerInterceptor(new LoggingInterceptor(true));
 
