@@ -48,7 +48,7 @@ public class BmiActivity extends AppCompatActivity {
     static FhirContext ourCtx;
     static IGenericClient client;
 
-    static String url = "http://mirth.grieshofer.com:80/observation";
+    static String url = "http://mirth.grieshofer.com:8880/observation";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -290,7 +290,9 @@ public class BmiActivity extends AppCompatActivity {
    //     ourCtx.getRestfulClientFactory().setConnectTimeout(60 * 1000);
    //     ourCtx.getRestfulClientFactory().setSocketTimeout(60 * 1000);
 
-        ourCtx.setRestfulClientFactory(new OkHttpRestfulClientFactory(ourCtx));
+        //ourCtx.setRestfulClientFactory(new OkHttpRestfulClientFactory(ourCtx));
+        ourCtx.getRestfulClientFactory().setConnectTimeout(60 * 1000);
+        ourCtx.getRestfulClientFactory().setSocketTimeout(60 * 1000);
         client = ourCtx.newRestfulGenericClient(url);
     //    client.registerInterceptor(new LoggingInterceptor(true));
 
